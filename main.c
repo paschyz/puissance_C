@@ -35,14 +35,19 @@ int main()
     }
 
     // print the board
-    for (i = 0; i < x; i++)
-    {
-        for (j = 0; j < y; j++)
+
+    for(int i=0;i<x;i++){
+        for(int j=0;j<y;j++)
         {
-            printf("%d ", board[i][j]);
+            if(j==y-1){
+                printf("| %d |", board[i][j]);
+            }else{
+                printf("| %d ", board[i][j]);
+            }
         }
         printf("\n");
     }
+
 
     // game loop
     while (winner == 0 && full == 0)
@@ -84,14 +89,19 @@ int main()
         }
 
         // print the board
-        for (i = 0; i < x; i++)
-        {
-            for (j = 0; j < y; j++)
+        printf("\n");
+        for(int i=0;i<x;i++){
+            for(int j=0;j<y;j++)
             {
-                printf("%d ", board[i][j]);
+                if(j==y-1){
+                    printf("| %d |", board[i][j]);
+                }else{
+                    printf("| %d ", board[i][j]);
+                }
             }
             printf("\n");
         }
+        printf("\n");
     }
 
     // print the winner
