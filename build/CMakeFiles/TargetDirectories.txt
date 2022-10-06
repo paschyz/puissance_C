@@ -1,0 +1,3 @@
+/Users/abdoulayedia/Projects/School/AL_2/piscine/puissance_C/build/CMakeFiles/puissance4.dir
+/Users/abdoulayedia/Projects/School/AL_2/piscine/puissance_C/build/CMakeFiles/edit_cache.dir
+/Users/abdoulayedia/Projects/School/AL_2/piscine/puissance_C/build/CMakeFiles/rebuild_cache.dir
