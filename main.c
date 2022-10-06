@@ -135,8 +135,10 @@ int getInput(char *label)
     {
         printf("%s", label);
         fgets(input, 2, stdin);
+        // remove the newline character
+
         inputInt = atoi(input);
-        if (inputInt > 0 && inputInt < 8)
+        if (inputInt > 0 && inputInt < 8 && inputInt > 0 && inputInt < 8)
         {
             valid = 1;
         }
@@ -144,6 +146,7 @@ int getInput(char *label)
         {
             printf("Invalid input, try again...");
         }
+        fflush(stdin);
     }
 
     return inputInt;
