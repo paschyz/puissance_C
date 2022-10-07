@@ -60,11 +60,16 @@ int main(int argc, char **argv)
         {
             if (j == y - 1)
             {
-                printf("| %d |", board[i][j]);
+                // if board[i][j] == 1, print ❌ else if board[i][j] == 2, print ⭕ else print ⬜
+                printf("| %s |", board[i][j] == 1 ? "❌" : board[i][j] == 2 ? "⭕"
+                                                                           : "⬜");
+                // printf("| %d |", board[i][j]);
             }
             else
             {
-                printf("| %d ", board[i][j]);
+                // printf("| %d ", board[i][j]);
+                printf("| %s ", board[i][j] == 1 ? "❌" : board[i][j] == 2 ? "⭕"
+                                                                          : "⬜");
             }
         }
         printf("\n");
@@ -72,11 +77,11 @@ int main(int argc, char **argv)
 
     while (winner == 0 && full == 0)
     {
-        input = getInput("Enter a number: ");
+        input = getInput(": ");
 
         if (board[0][input - 1] != 0)
         {
-            printf("Column is full, try again...");
+            printf("\033[0;31m[ERROR]\033[0m Column is full, try again...");
         }
         else
         {
@@ -96,12 +101,12 @@ int main(int argc, char **argv)
             if (player == 1)
             {
                 player = 2;
-                printf("%s's turn (2) \n", playerNames[1]);
+                printf("\033[0;32m%s's turn (2) \033[0m\n", playerNames[1]);
             }
             else
             {
                 player = 1;
-                printf("%s's turn (1) \n", playerNames[0]);
+                printf("\033[0;32m%s's turn (1) \033[0m\n", playerNames[0]);
             }
         }
 
@@ -112,11 +117,16 @@ int main(int argc, char **argv)
             {
                 if (j == y - 1)
                 {
-                    printf("| %d |", board[i][j]);
+                    // if board[i][j] == 1, print ❌ else if board[i][j] == 2, print ⭕ else print ⬜
+                    printf("| %s |", board[i][j] == 1 ? "❌" : board[i][j] == 2 ? "⭕"
+                                                                               : "⬜");
+                    // printf("| %d |", board[i][j]);
                 }
                 else
                 {
-                    printf("| %d ", board[i][j]);
+                    // printf("| %d ", board[i][j]);
+                    printf("| %s ", board[i][j] == 1 ? "❌" : board[i][j] == 2 ? "⭕"
+                                                                              : "⬜");
                 }
             }
             printf("\n");
@@ -126,11 +136,12 @@ int main(int argc, char **argv)
 
     if (winner == 1)
     {
-        printf("%s wins! \n", playerNames[player - 1]);
+
+        printf("\033[0;32m%s wins! \033[0m\n", playerNames[player - 1]);
     }
     else
     {
-        printf("It's a tie!");
+        printf("\033[0;31mIt's a tie! \033[0m\n");
     }
 
     printCredits();
@@ -171,7 +182,7 @@ int getInput(char *label)
         }
         else
         {
-            printf("Invalid input, try again...");
+            printf("\033[0;31m[ERROR]\033[0m Invalid input, try again...");
         }
         fflush(stdin);
     }
@@ -315,7 +326,11 @@ void getPlayerNames()
         char *token = strtok(line, "=");
         token = strtok(NULL, "=");
         strcpy(playerNames[j], token);
-        playerNames[j][strlen(playerNames[j]) - 1] = '\0';
+        // if the last character is a newline, remove it
+        if (playerNames[j][strlen(playerNames[j]) - 1] == '\n')
+        {
+            playerNames[j][strlen(playerNames[j]) - 1] = '\0';
+        }
         j++;
     }
     fclose(config);
