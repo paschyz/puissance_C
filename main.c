@@ -37,7 +37,6 @@ int main(int argc, char **argv)
         }
     }
 
-    // simple menu with blue color
     printf("\033[1;34m");
     printf("==== MENU ====\n");
     printf("\n1. Start Game\n2. Rules\n3. Credits\n4. Exit\n");
@@ -288,7 +287,6 @@ void printRules()
 
 void getPlayerNames()
 {
-    // get the player names from config.txt, the format is PLAYERX=NAME
     FILE *config = fopen("config.txt", "r");
     if (config == NULL)
     {
@@ -303,7 +301,6 @@ void getPlayerNames()
         char *token = strtok(line, "=");
         token = strtok(NULL, "=");
         strcpy(playerNames[j], token);
-        // if the last character is a newline, remove it
         if (playerNames[j][strlen(playerNames[j]) - 1] == '\n')
         {
             playerNames[j][strlen(playerNames[j]) - 1] = '\0';
