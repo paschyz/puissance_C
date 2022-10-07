@@ -16,6 +16,7 @@ int checkRow(int board[x][y], int player);
 int checkDiagonal(int board[x][y], int player);
 void printCredits();
 void printRules();
+void printBoard(int board[x][y]);
 void getPlayerNames();
 
 int main(int argc, char **argv)
@@ -36,6 +37,31 @@ int main(int argc, char **argv)
         }
     }
 
+    // simple menu with blue color
+    printf("\033[1;34m");
+    printf("==== MENU ====\n");
+    printf("\n1. Start Game\n2. Rules\n3. Credits\n4. Exit\n");
+    printf("\033[0m");
+
+    int choice = getInput("Enter your choice: ");
+
+    switch (choice)
+    {
+    case 1:
+        break;
+    case 2:
+        printRules();
+        return 0;
+    case 3:
+        printCredits();
+        return 0;
+    case 4:
+        return 0;
+    default:
+        printf("Invalid choice. Exiting...\n");
+        return 0;
+    }
+
     getPlayerNames();
 
     int board[x][y];
@@ -54,30 +80,16 @@ int main(int argc, char **argv)
         }
     }
 
-    for (int i = 0; i < x; i++)
-    {
-        for (int j = 0; j < y; j++)
-        {
-            if (j == y - 1)
-            {
-                // if board[i][j] == 1, print ❌ else if board[i][j] == 2, print ⭕ else print ⬜
-                printf("| %s |", board[i][j] == 1 ? "❌" : board[i][j] == 2 ? "⭕"
-                                                                           : "⬜");
-                // printf("| %d |", board[i][j]);
-            }
-            else
-            {
-                // printf("| %d ", board[i][j]);
-                printf("| %s ", board[i][j] == 1 ? "❌" : board[i][j] == 2 ? "⭕"
-                                                                          : "⬜");
-            }
-        }
-        printf("\n");
-    }
+    printBoard(board);
 
     while (winner == 0 && full == 0)
     {
         input = getInput(": ");
+#ifdef _WIN32
+        system("cls");
+#else
+        system("clear");
+#endif
 
         if (board[0][input - 1] != 0)
         {
@@ -110,33 +122,13 @@ int main(int argc, char **argv)
             }
         }
 
-        printf("\n");
-        for (int i = 0; i < x; i++)
-        {
-            for (int j = 0; j < y; j++)
-            {
-                if (j == y - 1)
-                {
-                    // if board[i][j] == 1, print ❌ else if board[i][j] == 2, print ⭕ else print ⬜
-                    printf("| %s |", board[i][j] == 1 ? "❌" : board[i][j] == 2 ? "⭕"
-                                                                               : "⬜");
-                    // printf("| %d |", board[i][j]);
-                }
-                else
-                {
-                    // printf("| %d ", board[i][j]);
-                    printf("| %s ", board[i][j] == 1 ? "❌" : board[i][j] == 2 ? "⭕"
-                                                                              : "⬜");
-                }
-            }
-            printf("\n");
-        }
+        printBoard(board);
+
         printf("\n");
     }
 
     if (winner == 1)
     {
-
         printf("\033[0;32m%s wins! \033[0m\n", playerNames[player - 1]);
     }
     else
@@ -147,21 +139,6 @@ int main(int argc, char **argv)
     printCredits();
 
     return 0;
-}
-
-void printBoard(int board[x][y])
-{
-    int i;
-    int j;
-
-    for (i = 0; i < x; i++)
-    {
-        for (j = 0; j < y; j++)
-        {
-            printf("%d ", board[i][j]);
-        }
-        printf("\n");
-    }
 }
 
 int getInput(char *label)
@@ -334,4 +311,26 @@ void getPlayerNames()
         j++;
     }
     fclose(config);
+}
+
+void printBoard(int board[x][y])
+{
+    for (int i = 0; i < x; i++)
+    {
+        for (int j = 0; j < y; j++)
+        {
+            if (j == y - 1)
+            {
+                printf("| %s |", board[i][j] == 1 ? "❌" : board[i][j] == 2 ? "🔵"
+                                                                           : "⬜");
+            }
+            else
+            {
+                printf("| %s ", board[i][j] == 1 ? "❌" : board[i][j] == 2 ? "🔵"
+                                                                          : "⬜");
+            }
+        }
+        printf("\n");
+    }
+    printf("\n");
 }
