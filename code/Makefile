@@ -32,7 +32,7 @@ OBJS = $(SRCS:.c=.o)
 MAIN = main
 
 $(MAIN): $(OBJS) 
-	$(CC) $(CFLAGS) $(INCLUDES) -o $(MAIN) $(OBJS) $(LFLAGS) $(LIBS)
+	$(CC) $(CFLAGS) $(INCLUDES) -o ../executables/$(MAIN) $(OBJS) $(LFLAGS) $(LIBS)
 
 .c.o:
 	$(CC) $(CFLAGS) $(INCLUDES) -c $<  -o $@
@@ -41,10 +41,10 @@ clean:
 	rm -f *.o *~ $(MAIN)	
 
 run:
-	./$(MAIN)
+	../executables/$(MAIN)
 
 help: 
-	./$(MAIN) -h
+	../executables/$(MAIN) -h
 
 credits:
-	./$(MAIN) -c
+	../executables/$(MAIN) -c
