@@ -42,3 +42,9 @@ clean:
 
 run:
 	./$(MAIN)
+
+help: 
+	./$(MAIN) -h
+
+credits:
+	./$(MAIN) -c
