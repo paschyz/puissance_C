@@ -1,0 +1,2 @@
+PLAYER1=Abdoulaye
+PLAYER2=Pascal

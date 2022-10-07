@@ -1,10 +1,12 @@
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
 
 #define x 6
 #define y 7
 
-// declare global functions
+char playerNames[2][20];
+
 void printBoard(int board[x][y]);
 int getInput(char *label);
 int checkWin(int board[x][y], int player);
@@ -12,11 +14,30 @@ int checkDraw(int board[x][y]);
 int checkColumn(int board[x][y], int player);
 int checkRow(int board[x][y], int player);
 int checkDiagonal(int board[x][y], int player);
+void printCredits();
+void printRules();
+void getPlayerNames();
 
-int main()
+int main(int argc, char **argv)
 {
 
-    // connect 4 game while the input is not 0, keep playing the game two players (1 and 2) and the board is 6x7 (x and y) and the game is over when there is a winner or the board is full
+    if (argc > 1)
+    {
+        if (strcmp(argv[1], "-h") == 0 || strcmp(argv[1], "--help") == 0)
+        {
+            printRules();
+            return 0;
+        }
+
+        if (strcmp(argv[1], "-c") == 0 || strcmp(argv[1], "--credits") == 0)
+        {
+            printCredits();
+            return 0;
+        }
+    }
+
+    getPlayerNames();
+
     int board[x][y];
     int player = 1;
     int winner = 0;
@@ -25,7 +46,6 @@ int main()
     int i;
     int j;
 
-    // initialize the board
     for (i = 0; i < x; i++)
     {
         for (j = 0; j < y; j++)
@@ -33,8 +53,6 @@ int main()
             board[i][j] = 0;
         }
     }
-
-    // print the board
 
     for (int i = 0; i < x; i++)
     {
@@ -52,20 +70,16 @@ int main()
         printf("\n");
     }
 
-    // game loop
     while (winner == 0 && full == 0)
     {
-        // get input from user and validate it (only 1 char) and digit
         input = getInput("Enter a number: ");
 
-        // check if the column is full
         if (board[0][input - 1] != 0)
         {
             printf("Column is full, try again...");
         }
         else
         {
-            // place the player's piece in the lowest available spot
             for (i = x - 1; i >= 0; i--)
             {
                 if (board[i][input - 1] == 0)
@@ -75,23 +89,22 @@ int main()
                 }
             }
 
-            // check if there is a winner
             winner = checkWin(board, player);
 
             full = checkDraw(board);
 
-            // switch player
             if (player == 1)
             {
                 player = 2;
+                printf("%s's turn (2) \n", playerNames[1]);
             }
             else
             {
                 player = 1;
+                printf("%s's turn (1) \n", playerNames[0]);
             }
         }
 
-        // print the board
         printf("\n");
         for (int i = 0; i < x; i++)
         {
@@ -111,26 +124,25 @@ int main()
         printf("\n");
     }
 
-    // print the winner
     if (winner == 1)
     {
-        printf("Player %d wins!", player);
+        printf("%s wins! \n", playerNames[player - 1]);
     }
     else
     {
         printf("It's a tie!");
     }
 
+    printCredits();
+
     return 0;
 }
 
-// define global functions
 void printBoard(int board[x][y])
 {
     int i;
     int j;
 
-    // print the board
     for (i = 0; i < x; i++)
     {
         for (j = 0; j < y; j++)
@@ -143,7 +155,6 @@ void printBoard(int board[x][y])
 
 int getInput(char *label)
 {
-    // get input from user and validate it (only 1 char) and digit
     char input[2];
     int inputInt;
     int valid = 0;
@@ -152,7 +163,6 @@ int getInput(char *label)
     {
         printf("%s", label);
         fgets(input, 2, stdin);
-        // remove the newline character
 
         inputInt = atoi(input);
         if (inputInt > 0 && inputInt < 8 && inputInt > 0 && inputInt < 8)
@@ -171,10 +181,8 @@ int getInput(char *label)
 
 int checkWin(int board[x][y], int player)
 {
-    // check if there is a winner
     int win = 0;
 
-    // check if there is a winner
     if (checkColumn(board, player) == 1 || checkRow(board, player) == 1 || checkDiagonal(board, player) == 1)
     {
         win = 1;
@@ -185,7 +193,6 @@ int checkWin(int board[x][y], int player)
 
 int checkDraw(int board[x][y])
 {
-    // check if the board is full
     int full = 1;
     int i;
     int j;
@@ -207,7 +214,6 @@ int checkDraw(int board[x][y])
 
 int checkColumn(int board[x][y], int player)
 {
-    // check if there is a winner in a column
     int win = 0;
     int i;
     int j;
@@ -229,7 +235,6 @@ int checkColumn(int board[x][y], int player)
 
 int checkRow(int board[x][y], int player)
 {
-    // check if there is a winner in a row
     int win = 0;
     int i;
     int j;
@@ -251,7 +256,6 @@ int checkRow(int board[x][y], int player)
 
 int checkDiagonal(int board[x][y], int player)
 {
-    // check if there is a winner in a diagonal
     int win = 0;
     int i;
     int j;
@@ -269,4 +273,50 @@ int checkDiagonal(int board[x][y], int player)
     }
 
     return win;
+}
+
+void printCredits()
+{
+    printf("\n\nCreated by: Abdoulaye Dia - Pascal Zhou - Cheikh - Clyde\n2022 - 2023\nPiscine C\n");
+}
+
+void printMenu()
+{
+    printf("Welcome to Connect 4!\n");
+    printf("1. Play\n");
+    printf("2. Credits\n");
+    printf("3. Quit\n");
+}
+
+void printRules()
+{
+    printf("Puissance 4 est un jeu de société pour deux joueurs.\n \n");
+    printf("Le but du jeu est d'aligner 4 pions de sa couleur avant son adversaire.\n \n");
+    printf("Le jeu se joue sur une grille de 6 lignes et 7 colonnes, composée de 42 cases.\n \n");
+    printf("Au début du jeu, les deux joueurs placent leurs pions dans la colonne de leur choix, de haut en bas.\n \n");
+    printf("Si un joueur aligne 4 pions de sa couleur, il gagne la partie.\n \n");
+    printf("Si la grille est remplie sans qu'aucun joueur n'ait aligné 4 pions, la partie est déclarée nulle.\n \n");
+}
+
+void getPlayerNames()
+{
+    // get the player names from config.txt, the format is PLAYERX=NAME
+    FILE *config = fopen("config.txt", "r");
+    if (config == NULL)
+    {
+        printf("Error: config.txt not found\n");
+        return;
+    }
+
+    char line[50];
+    int j = 0;
+    while (fgets(line, sizeof(line), config))
+    {
+        char *token = strtok(line, "=");
+        token = strtok(NULL, "=");
+        strcpy(playerNames[j], token);
+        playerNames[j][strlen(playerNames[j]) - 1] = '\0';
+        j++;
+    }
+    fclose(config);
 }
